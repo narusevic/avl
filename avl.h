@@ -1,4 +1,4 @@
-// 686
+// 686, lukas narusevicius
 
 #ifndef AVL_H
 #define AVL_H
