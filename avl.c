@@ -59,6 +59,7 @@ Node* insertNode(Node* n, int val, void* data, int* err)
 {
 	if (n == NULL)
 	{
+		*err = 0;
 		return newNode(n, val, data);
 	}
 
@@ -115,25 +116,26 @@ Node* deleteNode(Node* n, int val, int* err)
     
 	if (val < n->value)
 	{
-		deleteNode(n->left, val, err);
+		n->left = deleteNode(n->left, val, err);
 	}
 	else if (val > n->value)
 	{
-		deleteNode(n->right, val, err);  
+		n->right = deleteNode(n->right, val, err);  
 	}
 	else
 	{
 		*err = 0;
 		if (n->left == NULL && n->right == NULL)
-        	{
-            		n = NULL;
-            		free(n);
+    	{    		
+			Node* temp = NULL;
+			temp = n;
+    		n = NULL;
+    		free(temp);
 		}
 		else if(n->left == NULL || n->right == NULL)
 		{
 			Node* temp = (n->left != NULL ? n->left : n->right);
 			*n = *temp;
-			n = (n->left != NULL ? n->left : n->right);
 			free(temp);
 		}
 		else
@@ -141,15 +143,15 @@ Node* deleteNode(Node* n, int val, int* err)
 			Node* temp = n->right;
 		    
 			while (temp->left != NULL)
-		    	{
-		        	temp = temp->left;                
-		    	}
-		    
-		    	n->value = temp->value;
-		    
-		    	n->right = deleteNode(n->right, temp->value, err);
+	    	{
+	        	temp = temp->left;                
+	    	}
+	    
+	    	n->value = temp->value;
+	    
+	    	n->right = deleteNode(n->right, temp->value, err);
 		}
-    	}
+	}
     
 	if (n == NULL)
 	{

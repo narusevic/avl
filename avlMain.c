@@ -90,16 +90,38 @@ int main()
 	return 0;*/
 
 	avl root = NULL;
-	int err;
+	int err = 1;
 
 	root = insertNode(root, 8, "aaa", &err);
 	root = insertNode(root, 4, "bbb", &err);
-	root = insertNode(root, 12, "c", &err);
-	root = insertNode(root, -2, "ddd", &err);
-	root = insertNode(root, 0, "eeeee", &err);
-	root = insertNode(root, 7, "ffff", &err);
-	root = insertNode(root, 3, "i", &err);
-	root = insertNode(root, 10, "ggg", &err);
-	root = insertNode(root, 1, "aaa",&err);
-	root = insertNode(root, 3, "i", &err);
+	root = insertNode(root, 7, "bbb", &err);
+	root = insertNode(root, 10, "bbb", &err);
+	root = insertNode(root, 6, "c", &err);
+	root = insertNode(root, 11, "ddd", &err);
+	root = insertNode(root, -51, "eeeee", &err);
+	root = insertNode(root, 1, "ffff", &err);
+	root = insertNode(root, 23, "i", &err);
+	root = insertNode(root, 2, "ggg", &err);
+
+	int size = avlSize(root);
+	int array1[size];
+	int i;
+	printf("%d\n", size);
+
+
+	preOrder(array1, root);
+	for (i = 0; i < size; i++)
+	{
+		printf("%d ", array1[i]);
+	}
+	root = deleteNode(root, 11, &err);
+	size = avlSize(root);
+	int array2[size];
+	printf("\n%d\n", size);
+
+	preOrder(array2, root);
+	for (i = 0; i < size; i++)
+	{
+		printf("%d ", array2[i]);
+	}
 }
