@@ -25,7 +25,7 @@ int main()
 	* postOrder(array, root);
 	*/
 	
-	struct zmogus lukas;
+	/*struct zmogus lukas;
 	char *name;
 	name = "Lukas";
 	lukas.vardas = name;
@@ -87,5 +87,19 @@ int main()
 		printf("%d ", array3[i]);
 	}
 
-	return 0;
+	return 0;*/
+
+	avl root = NULL;
+	int err;
+
+	root = insertNode(root, 8, "aaa", &err);
+	root = insertNode(root, 4, "bbb", &err);
+	root = insertNode(root, 12, "c", &err);
+	root = insertNode(root, -2, "ddd", &err);
+	root = insertNode(root, 0, "eeeee", &err);
+	root = insertNode(root, 7, "ffff", &err);
+	root = insertNode(root, 3, "i", &err);
+	root = insertNode(root, 10, "ggg", &err);
+	root = insertNode(root, 1, "aaa",&err);
+	root = insertNode(root, 3, "i", &err);
 }

@@ -31,8 +31,8 @@ Node* rightRotate(Node* n)
 	x->right = n;
 	n->left = T;
 
-	n->height = (height(n->left) > height(n->right) ? n->left->height : n->right->height) + 1;
-	x->height = (height(x->left) > height(x->right) ? x->left->height : x->right->height) + 1;
+	n->height = (height(n->left) > height(n->right) ? height(n->left) : height(n->right)) + 1;
+	x->height = (height(x->left) > height(x->right) ? height(x->left) : height(x->right)) + 1;
 
 	return x;
 }
@@ -40,36 +40,6 @@ Node* rightRotate(Node* n)
 int countBalance(Node* n)
 {
 	return (n != NULL ? (height(n->left) - height(n->right)) : 0);
-}
-
-Node* balance(Node* n, int isDelete)
-{
-	int balanceFactor = countBalance(n);
-
-	//left left
-	if (balanceFactor > 1 && countBalance(n->left) >= (isDelete ? 0 : countBalance(n->right)))
-	{
-		return rightRotate(n);
-	}
-	//right right
-	if (balanceFactor < -1 && countBalance(n->right) >= (isDelete ? 0 : countBalance(n->left)))
-	{
-		return leftRotate(n);
-	}
-	//left right
-	if (balanceFactor > 1 && countBalance(n->left) < (isDelete ? 0 : countBalance(n->right)))
-	{
-		n->left = leftRotate(n->left);
-		return rightRotate(n);
-	}
-	//right left
-	if (balanceFactor < -1 && countBalance(n->right) < (isDelete ? 0 : countBalance(n->left)))
-	{
-		n->right = rightRotate(n->right);
-		return leftRotate(n);
-	}
-
-	return n;
 }
 
 Node* newNode(Node* n, int val, void* data)
@@ -107,8 +77,32 @@ Node* insertNode(Node* n, int val, void* data, int* err)
 	}
 
 	n->height = (height(n->left) > height(n->right) ? height(n->left) : height(n->right)) + 1;
+	int balanceFactor = countBalance(n);
 		
-	return balance(n, 0);
+	//left left
+	if (balanceFactor > 1 && val < n->left->value)
+	{
+		return rightRotate(n);
+	}
+	//right right
+	if (balanceFactor < -1 && val > n->right->value)
+	{
+		return leftRotate(n);
+	}
+	//left right
+	if (balanceFactor > 1 && val > n->left->value)
+	{
+		n->left = leftRotate(n->left);
+		return rightRotate(n);
+	}
+	//right left
+	if (balanceFactor < -1 && val < n->right->value)
+	{
+		n->right = rightRotate(n->right);
+		return leftRotate(n);
+	}
+
+	return n;
 }
 
 Node* deleteNode(Node* n, int val, int* err)
@@ -163,8 +157,32 @@ Node* deleteNode(Node* n, int val, int* err)
 	}
     
 	n->height = (height(n->left) > height(n->right) ? height(n->left) : height(n->right)) + 1;
-	
-	return balance(n, 1);    
+	int balanceFactor = countBalance(n);	
+
+	// Left Left Case
+    if (balanceFactor > 1 && countBalance(n->left) >= 0)
+    {
+        return rightRotate(n);
+    } 
+    // Right Right Case
+    if (balanceFactor < -1 && countBalance(n->right) <= 0)
+    {
+        return leftRotate(n);
+    } 
+    // Left Right Case
+    if (balanceFactor > 1 && countBalance(n->left) < 0)
+    {
+        n->left = leftRotate(n->left);
+        return rightRotate(n);
+    } 
+    // Right Left Case
+    if (balanceFactor < -1 && countBalance(n->right) > 0)
+    {
+        n->right = rightRotate(n->right);
+        return leftRotate(n);
+    }
+
+	return n;    
 }
 
 void preTraversal(int values[], Node* n, int* index)
